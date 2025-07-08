@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import "./App.css";
 import Hero from "./components/Hero";
 import ReactLenis, { type LenisRef } from 'lenis/react'
-import { cancelFrame, frame, useMotionValueEvent, useScroll } from 'framer-motion'
+import { cancelFrame, frame,} from 'framer-motion'
 
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
   }, [])
   
   return (
-    <ReactLenis ref={lenisRef} root options={{lerp:.1,duration:1.5, smoothWheel:true, autoRaf:false}}>
+    <ReactLenis ref={lenisRef} root options={{lerp:0,duration:1.5, smoothWheel:true, autoRaf:false}}>
     <div className="h-full min-h-screen">
      <Hero/>
       <section className="outro h-screen">

@@ -4,7 +4,6 @@ import {
   useScroll,
   useTransform,
   motion,
-  useMotionValueEvent,
   useMotionTemplate,
 } from "framer-motion";
 import { debounce } from '../utils';
@@ -16,32 +15,25 @@ const Hero = () => {
   const overlayCopyRef = useRef<HTMLHeadingElement>(null)
   useEffect(() => {
     if (!pathElement.current || !logoContainer.current || !overlayCopyRef.current) return;
-    overlayCopyRef.current.style.backgroundClip = 'text'
+   
     const updateLogoPosition = () => {
-      pathElement.current!.setAttribute("d", pubgPath);
+      let screenScaleFactor = 0
+      pathElement.current?.setAttribute("d", pubgPath);
       const logoDimensions = logoContainer.current!.getBoundingClientRect();
       const logoBoundingBox = pathElement.current!.getBBox();
-  
+      if(window.innerWidth > 1440){screenScaleFactor = (window.innerHeight - 1440) * -1}
       // Calculate scaling factor
       const horizontalScaleRatio = logoDimensions.width / logoBoundingBox.width;
       const verticalScaleRatio = logoDimensions.height / logoBoundingBox.height;
       const logoScaleFactor = Math.min(horizontalScaleRatio, verticalScaleRatio);
-  
-      // Calculate centered position
-      const logoHorizontalPosition =
-        logoDimensions.left +
-        (logoDimensions.width - logoBoundingBox.width * logoScaleFactor) / 2 -
-        logoBoundingBox.x * logoScaleFactor;
-  
-      const logoVerticalPosition =
-        logoDimensions.top +
-        (logoDimensions.height - logoBoundingBox.height * logoScaleFactor) / 2 -
-        logoBoundingBox.y * logoScaleFactor;
-  
+     
+     
+    
       pathElement.current!.setAttribute(
         "transform",
-        `translate(${logoHorizontalPosition}, ${logoVerticalPosition}) scale(${logoScaleFactor})`
+        `translate(${logoDimensions.left + screenScaleFactor}, ${logoDimensions.top}) scale(${logoScaleFactor})`
       );
+      
     };
   
    
@@ -71,16 +63,24 @@ const Hero = () => {
       const heroImgContainerScale = 1.5 - .5 * normalizedProgress
       
       return heroImgContainerScale
-    }else return 1
+    }else return 1.05
   })
   const overlayScale = useTransform(scrollYProgress,(progress)=>{
     if (progress <.85) {
       const normalizedProgress = progress * (1 /.85)
       const overlayScale = 350 * Math.pow(1/350,normalizedProgress)
       return overlayScale
-    } else return 0
+    }
+    return 1;
   })
 
+  const overlayTop = useTransform(scrollYProgress,(progress)=>{
+    if (progress <.85) {
+      const normalizedProgress = progress * (1 /.85)
+      const overlayScale = -30 + 30 * normalizedProgress
+      return overlayScale
+    } else return 0
+  })
   const fadeOverlayOpacity = useTransform(scrollYProgress,(progress)=>{
     if(progress > .25){
       return Math.min(1,(progress - .25) * (1/.4))
@@ -154,8 +154,14 @@ const Hero = () => {
       style={{
         opacity:fadeOverlayOpacity
       }}>
-        <div className="overlay">
-          <svg className="w-full h-full absolute">
+        <motion.div className="overlay"
+        style={
+          {scale:overlayScale,
+            position:'absolute',
+            // top:overlayTop
+          }
+        }>
+          <svg className="w-full h-full absolute inset-0">
             <defs>
               <mask id="logoRevealMask">
                 <rect width="100%" height="100%" fill="white" />
@@ -169,7 +175,7 @@ const Hero = () => {
               mask="url(#logoRevealMask)"
             />
           </svg>
-        </div>
+        </motion.div>
         <div className="logo-container" ref={logoContainer}></div>
         <div className="overlay-copy">
           <motion.h1 ref={overlayCopyRef} style={{
