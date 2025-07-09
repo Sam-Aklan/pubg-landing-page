@@ -65,7 +65,7 @@ p{
 }
 
 .hero-image-logo img{
-  @apply  w-160 absolute -top-1/5 left-1/2 object-contain -translate-x-1/2
+  @apply  w-160 absolute -top-1/5 left-1/2 object-contain -translate-x-[48%]
 }
 
 .hero-img-copy{

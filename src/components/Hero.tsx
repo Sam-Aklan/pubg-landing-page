@@ -95,7 +95,7 @@ const Hero = () => {
   const gradientTopPosition = useTransform(
     scrollYProgress,
     [0.6, 0.85],
-    [140, -140], // Adjusted to maintain 100px spread
+    [140, -140], 
     {
       ease: easeInOut
     }
@@ -151,7 +151,6 @@ const Hero = () => {
         style={
           {scale:overlayScale,
             position:'absolute',
-            // top:overlayTop
           }
         }>
           <svg className="w-full h-full absolute inset-0">
