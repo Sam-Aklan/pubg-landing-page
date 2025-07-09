@@ -1,5 +1,31 @@
-# pubg-landing-page
-mimic gta6 landing page for pubg
+# PUBG Hero Section - GTA 6 Style Implementation
+
+![Demo](demo.gif) <!-- Add your demo GIF/screenshot here -->
+
+A dynamic hero section for PUBG, inspired by GTA 6's reveal trailer technique, featuring SVG masking and scroll-driven animations.
+
+## Core Concept
+
+This implementation relies on two key techniques:
+
+1. **SVG Masking**: Using SVG paths to create complex reveal effects
+2. **Scroll-Driven Animation**: Animating the mask's scale and position based on scroll position
+
+## Features
+
+- Parallax background effect
+- SVG path masking for dramatic reveals
+- Scroll-triggered mask scaling animation
+- Responsive design
+- Smooth performance with hardware acceleration
+
+## Technologies Used
+
+- **React** - Component-based UI architecture
+- **Tailwind CSS** - Utility-first CSS framework for rapid styling
+- **Framer Motion** - Production-ready animation library for React
+- **Lenis** - Buttery smooth scroll implementation
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
