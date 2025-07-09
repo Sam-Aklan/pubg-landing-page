@@ -5,6 +5,7 @@ import {
   useTransform,
   motion,
   useMotionTemplate,
+  easeInOut,
 } from "framer-motion";
 import { debounce } from '../utils';
 
@@ -21,7 +22,7 @@ const Hero = () => {
       pathElement.current?.setAttribute("d", pubgPath);
       const logoDimensions = logoContainer.current!.getBoundingClientRect();
       const logoBoundingBox = pathElement.current!.getBBox();
-      if(window.innerWidth > 1440){screenScaleFactor = (window.innerHeight - 1440) * -1}
+      if(window.innerWidth > 1440){screenScaleFactor = (window.innerHeight - 1440) }
       // Calculate scaling factor
       const horizontalScaleRatio = logoDimensions.width / logoBoundingBox.width;
       const verticalScaleRatio = logoDimensions.height / logoBoundingBox.height;
@@ -29,16 +30,16 @@ const Hero = () => {
      
      
     
-      pathElement.current!.setAttribute(
+      pathElement.current?.setAttribute(
         "transform",
-        `translate(${logoDimensions.left + screenScaleFactor}, ${logoDimensions.top}) scale(${logoScaleFactor})`
+        `translate(${logoDimensions.left - screenScaleFactor}, ${logoDimensions.top}) scale(${logoScaleFactor})`
       );
-      
+     
     };
   
    
   const debouncedUpdate = debounce(updateLogoPosition, 100);
-  updateLogoPosition(); // Initial call
+  updateLogoPosition(); 
   window.addEventListener("resize", debouncedUpdate);
 
   return () => {
@@ -74,13 +75,6 @@ const Hero = () => {
     return 1;
   })
 
-  const overlayTop = useTransform(scrollYProgress,(progress)=>{
-    if (progress <.85) {
-      const normalizedProgress = progress * (1 /.85)
-      const overlayScale = -30 + 30 * normalizedProgress
-      return overlayScale
-    } else return 0
-  })
   const fadeOverlayOpacity = useTransform(scrollYProgress,(progress)=>{
     if(progress > .25){
       return Math.min(1,(progress - .25) * (1/.4))
@@ -89,24 +83,23 @@ const Hero = () => {
 
  
 
-  const gradientBottomPostion = useTransform(scrollYProgress,(progress)=>{
-    if(progress >.6 && progress <.85){
-        const overlayCopyRevealProgress = (progress - .6) *(1/.25)
-        
-        const gradientBottomPostion = 240 - overlayCopyRevealProgress * 280;
-        return gradientBottomPostion
-    } else return 100
-  })
-
-  const gradientTopPostion =useTransform(scrollYProgress,(progress)=>{
-    if(progress >.6 && progress <.85){
-        const overlayCopyRevealProgress = (progress - .6) *(1/.25)
-        const gradientSpread = 100
-        const gradientBottomPostion = 240 - overlayCopyRevealProgress * 280;
-        const gradientTopPostion = gradientBottomPostion - gradientSpread;
-        return gradientTopPostion
-    } return 0
-  })
+  const gradientBottomPosition = useTransform(
+    scrollYProgress,
+    [0.6, 0.85], 
+    [240, -40], 
+    {
+      ease: easeInOut 
+    }
+  );
+  
+  const gradientTopPosition = useTransform(
+    scrollYProgress,
+    [0.6, 0.85],
+    [140, -140], // Adjusted to maintain 100px spread
+    {
+      ease: easeInOut
+    }
+  );
 
  const overlayCopyScale = useTransform(scrollYProgress,progress=>{
     if(progress >.6 && progress <.85){
@@ -115,7 +108,7 @@ const Hero = () => {
       return overlayCopyScale
   } return 1
   })
-  const textGradinet = useMotionTemplate `linear-gradient(to bottom, #111117 0%, #668cb7 ${gradientTopPostion}%, #d4b949 ${gradientBottomPostion}%, #d4b949 100%)`
+  const textGradinet = useMotionTemplate `linear-gradient(to bottom, #111117 0%, #668cb7 ${gradientTopPosition}%, #d4b949 ${gradientBottomPosition}%, #d4b949 100%)`
 
  
   const overlayH1Opacity = useTransform(scrollYProgress,[0,.6,1],[0,0,1])

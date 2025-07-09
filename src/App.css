@@ -76,21 +76,20 @@ p{
   will-change: opacity;
 }
 
-.hero-img-copy p{
-  font-size: .65rem;
-  animation: floatY .3 ease-in-out infinite 
+.hero-img-copy p {
+  font-size: 0.8rem;
+  animation: floatY 2s ease-in-out infinite both;
 }
 
 @keyframes floatY {
-  0%{
+  0%, 100% {
     transform: translateY(0);
   }
-
-  100%{
-    transform: translateY(70px);
+  50% {
+    transform: translateY(10px);
   }
-
 }
+
 .overlay-copy{
   position: absolute;
   bottom: 25%;
