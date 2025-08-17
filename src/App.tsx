@@ -19,7 +19,7 @@ function App() {
   }, [])
   
   return (
-    <ReactLenis ref={lenisRef} root options={{lerp:0,duration:1.5, smoothWheel:true, autoRaf:false}}>
+    <ReactLenis ref={lenisRef} root options={{lerp:0.01,duration:1.5, smoothWheel:true, autoRaf:false}}>
     <div className="h-full min-h-screen">
      <Hero/>
       <section className="outro h-screen">

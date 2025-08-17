@@ -22,7 +22,7 @@ const Hero = () => {
       pathElement.current?.setAttribute("d", pubgPath);
       const logoDimensions = logoContainer.current!.getBoundingClientRect();
       const logoBoundingBox = pathElement.current!.getBBox();
-      if(window.innerWidth > 1440){screenScaleFactor = (window.innerHeight - 1440) }
+      if(window.innerWidth > 1440){screenScaleFactor = (window.innerWidth  - (1440 + window.innerWidth * .15)) }
       // Calculate scaling factor
       const horizontalScaleRatio = logoDimensions.width / logoBoundingBox.width;
       const verticalScaleRatio = logoDimensions.height / logoBoundingBox.height;
@@ -32,7 +32,7 @@ const Hero = () => {
     
       pathElement.current?.setAttribute(
         "transform",
-        `translate(${logoDimensions.left - screenScaleFactor}, ${logoDimensions.top}) scale(${logoScaleFactor})`
+        `translate(${logoDimensions.left - screenScaleFactor}, ${logoDimensions.top}) scale(${horizontalScaleRatio},${verticalScaleRatio})`
       );
      
     };
