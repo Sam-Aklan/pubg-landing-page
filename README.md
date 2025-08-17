@@ -1,6 +1,6 @@
 # PUBG Hero Section - GTA 6 Style Implementation
 
-![Demo](demo.gif) <!-- Add your demo GIF/screenshot here -->
+https://github.com/user-attachments/assets/64c32286-b5f3-48a5-a50e-bc950d50bb3f 
 
 A dynamic hero section for PUBG, inspired by GTA 6's reveal trailer technique, featuring SVG masking and scroll-driven animations.
 
